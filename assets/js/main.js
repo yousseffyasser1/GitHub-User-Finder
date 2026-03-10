@@ -5,17 +5,25 @@ const input = document.querySelector("#username");
 const button = document.querySelector("#searchBtn");
 const card = document.querySelector("#userCard");
 
-button.addEventListener("click", () => {
-  async function searchUser() {
-    const username = input.value;
-    card.innerHTML = "Loading...";
+async function searchUser() {
+  const username = input.value.trim();
+  if (!username) return;
 
-    try {
-      const user = await getUser(username);
-      displayUser(user);
-    } catch (error) {
-      card.innerHTML = "User not found";
-    }
+  card.innerHTML = `<div class="loading"><div class="spinner"></div><span>Searching...</span></div>`;
+
+  try {
+    const user = await getUser(username);
+    displayUser(user);
+  } catch (error) {
+    card.innerHTML = `<div class="error-state">
+      <i class="fa-regular fa-face-frown"></i>
+      <p>User not found</p>
+    </div>`;
   }
-  searchUser();
+}
+
+button.addEventListener("click", searchUser);
+
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") searchUser();
 });

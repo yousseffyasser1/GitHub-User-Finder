@@ -1,11 +1,54 @@
+function escapeHTML(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
 export function displayUser (user) {
   const card = document.querySelector('#userCard');
-  card.innerHTML = `<img src="${user.avatar_url}" alt="user image">
-    <h2><strong>Name : </strong>${user.name}</h2>
-    <p><strong>Bio : </strong>${user.bio ?? "NO Bio available" }</p>
-    <p><strong>Location : </strong>${user.location ?? "UnKnown"}</p>
-    <p><strong>Public Repos : </strong>${user.public_repos}</p>
-    <p><strong>Followers : </strong>${user.followers}</p>
-    <p><strong>Following : </strong>${user.following}</p>
-    <a href="${user.html_url}" rel="">View Profile</a>`;
+  const name = escapeHTML(user.name || user.login);
+  const login = escapeHTML(user.login);
+  const bio = escapeHTML(user.bio ?? 'No bio available');
+  const location = escapeHTML(user.location ?? 'Unknown');
+  const joinDate = new Date(user.created_at).toLocaleDateString('en-US', {
+    month: 'short',
+    year: 'numeric'
+  });
+
+  card.innerHTML = `
+    <div class="user-card">
+      <div class="user-card-header">
+        <img src="${user.avatar_url}" alt="${login}'s avatar">
+        <div class="user-info">
+          <h2>${name}</h2>
+          <div class="login">@${login}</div>
+          <div class="bio">${bio}</div>
+        </div>
+      </div>
+
+      <div class="user-meta">
+        <span><i class="fa-solid fa-location-dot"></i> ${location}</span>
+        <span><i class="fa-regular fa-calendar"></i> Joined ${joinDate}</span>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-value">${user.public_repos}</span>
+          <span class="stat-label">Repos</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">${user.followers}</span>
+          <span class="stat-label">Followers</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">${user.following}</span>
+          <span class="stat-label">Following</span>
+        </div>
+      </div>
+
+      <a href="${user.html_url}" target="_blank" rel="noopener noreferrer" class="profile-link">
+        <i class="fa-brands fa-github"></i>
+        View Profile on GitHub
+      </a>
+    </div>`;
 }
