@@ -1,8 +1,15 @@
+function escapeHTML(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
 export function displayUser (user) {
   const card = document.querySelector('#userCard');
-  const name = user.name || user.login;
-  const bio = user.bio ?? 'No bio available';
-  const location = user.location ?? 'Unknown';
+  const name = escapeHTML(user.name || user.login);
+  const login = escapeHTML(user.login);
+  const bio = escapeHTML(user.bio ?? 'No bio available');
+  const location = escapeHTML(user.location ?? 'Unknown');
   const joinDate = new Date(user.created_at).toLocaleDateString('en-US', {
     month: 'short',
     year: 'numeric'
@@ -11,10 +18,10 @@ export function displayUser (user) {
   card.innerHTML = `
     <div class="user-card">
       <div class="user-card-header">
-        <img src="${user.avatar_url}" alt="${user.login}'s avatar">
+        <img src="${user.avatar_url}" alt="${login}'s avatar">
         <div class="user-info">
           <h2>${name}</h2>
-          <div class="login">@${user.login}</div>
+          <div class="login">@${login}</div>
           <div class="bio">${bio}</div>
         </div>
       </div>

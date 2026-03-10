@@ -17,7 +17,7 @@ async function searchUser() {
   } catch (error) {
     card.innerHTML = `<div class="error-state">
       <i class="fa-regular fa-face-frown"></i>
-      <p>User "<strong>${username}</strong>" not found</p>
+      <p>User not found</p>
     </div>`;
   }
 }
