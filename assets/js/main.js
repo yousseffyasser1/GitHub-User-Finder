@@ -1,5 +1,5 @@
-import { getUser } from "./api.js";
-import { displayUser } from "./ui.js";
+import { getUser, getUserRepos } from "./api.js";
+import { displayUser, displayRepos } from "./ui.js";
 
 const input = document.querySelector("#username");
 const button = document.querySelector("#searchBtn");
@@ -14,6 +14,8 @@ async function searchUser() {
   try {
     const user = await getUser(username);
     displayUser(user);
+    const repos = await getUserRepos(username);
+    displayRepos(repos);
   } catch (error) {
     card.innerHTML = `<div class="error-state">
       <i class="fa-regular fa-face-frown"></i>

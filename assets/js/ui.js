@@ -52,3 +52,72 @@ export function displayUser (user) {
       </a>
     </div>`;
 }
+
+
+// export function displayRepos(repos) {
+//   const reposContainer = document.querySelector("#reposContainer");
+
+//   let reposHTML = "";
+
+//   repos.forEach(repo => {
+//     reposHTML += `
+//       <div class="repo-item">
+//         <h3>${repo.name}</h3>
+//         <p>⭐ ${repo.stargazers_count}</p>
+//         <p>${repo.language || "Not specified"}</p>
+//       </div>
+//     `;
+//   });
+
+//   reposContainer.innerHTML = reposHTML;
+// }
+
+
+export function displayRepos(repos) {
+  const reposContainer = document.querySelector("#reposContainer");
+
+  const langColors = {
+    JavaScript: "#f1e05a",
+    Python: "#3572A5",
+    TypeScript: "#3178c6",
+    HTML: "#e34c26",
+    CSS: "#563d7c",
+    Java: "#b07219",
+  };
+
+  let reposHTML = `
+    <div class="repos-section">
+      <div class="repos-title">
+        <i class="fa-solid fa-book"></i>
+        Repositories
+      </div>
+      <div class="repos-grid">
+  `;
+
+  repos.forEach(repo => {
+    const lang = repo.language || "Unknown";
+    const color = langColors[lang] || "#8b949e";
+
+    reposHTML += `
+      <div class="repo-item">
+        <div class="repo-name">
+          <i class="fa-solid fa-code-branch"></i>
+          ${repo.name}
+        </div>
+        <div class="repo-right">
+          <div class="repo-stars">
+            <i class="fa-solid fa-star"></i>
+            ${repo.stargazers_count}
+          </div>
+          <div class="repo-lang">
+            <span class="repo-lang-dot" style="background:${color}"></span>
+            ${lang}
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  reposHTML += `</div></div>`;
+  reposContainer.innerHTML = reposHTML;
+}
