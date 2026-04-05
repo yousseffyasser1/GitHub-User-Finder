@@ -1,18 +1,18 @@
 function escapeHTML(str) {
-  const div = document.createElement('div');
+  const div = document.createElement("div");
   div.textContent = str;
   return div.innerHTML;
 }
 
-export function displayUser (user) {
-  const card = document.querySelector('#userCard');
+export function displayUser(user) {
+  const card = document.querySelector("#userCard");
   const name = escapeHTML(user.name || user.login);
   const login = escapeHTML(user.login);
-  const bio = escapeHTML(user.bio ?? 'No bio available');
-  const location = escapeHTML(user.location ?? 'Unknown');
-  const joinDate = new Date(user.created_at).toLocaleDateString('en-US', {
-    month: 'short',
-    year: 'numeric'
+  const bio = escapeHTML(user.bio ?? "No bio available");
+  const location = escapeHTML(user.location ?? "Unknown");
+  const joinDate = new Date(user.created_at).toLocaleDateString("en-US", {
+    month: "short",
+    year: "numeric",
   });
 
   card.innerHTML = `
@@ -53,7 +53,6 @@ export function displayUser (user) {
     </div>`;
 }
 
-
 // export function displayRepos(repos) {
 //   const reposContainer = document.querySelector("#reposContainer");
 
@@ -71,7 +70,6 @@ export function displayUser (user) {
 
 //   reposContainer.innerHTML = reposHTML;
 // }
-
 
 export function displayRepos(repos) {
   const reposContainer = document.querySelector("#reposContainer");
@@ -94,24 +92,37 @@ export function displayRepos(repos) {
       <div class="repos-grid">
   `;
 
-  repos.forEach(repo => {
+  repos.forEach((repo) => {
     const lang = repo.language || "Unknown";
     const color = langColors[lang] || "#8b949e";
 
     reposHTML += `
       <div class="repo-item">
-        <div class="repo-name">
-          <i class="fa-solid fa-code-branch"></i>
-          ${repo.name}
-        </div>
-        <div class="repo-right">
-          <div class="repo-stars">
-            <i class="fa-solid fa-star"></i>
-            ${repo.stargazers_count}
+        <div class="repo-header">
+          <div class="repo-name">
+            <i class="fa-solid fa-code-branch"></i>
+            ${repo.name}
           </div>
-          <div class="repo-lang">
-            <span class="repo-lang-dot" style="background:${color}"></span>
-            ${lang}
+          <div class="repo-right">
+            <div class="repo-stars">
+              <i class="fa-solid fa-star"></i>
+              ${repo.stargazers_count}
+            </div>
+            <div class="repo-lang">
+              <span class="repo-lang-dot" style="background:${color}"></span>
+              ${lang}
+            </div>
+          </div>
+        </div>
+        <div class="repo-info">
+          <div class="repo-desc">
+            ${repo.description ? escapeHTML(repo.description) : "No description"}
+          </div>
+          <div class="repo-bottom">
+            <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" class="repo-link">
+              <i class="fa-solid fa-up-right-from-square"></i>
+              View on GitHub
+            </a>
           </div>
         </div>
       </div>

@@ -11,6 +11,11 @@ export async function getUser(username) {
 
 export async function getUserRepos(username) {
   const response = await fetch(`https://api.github.com/users/${username}/repos`);
+
+  if (!response.ok) {
+    throw new Error("Repos not found");
+  }
+
   const data = await response.json();
   return data;
 }
